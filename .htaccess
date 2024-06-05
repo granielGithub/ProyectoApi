@@ -1,0 +1,16 @@
+
+RewriteEngine On
+
+# esta lineas son para quitar la ext .php
+#ya no se ocupa poner el .php en los dichos documentos que intentemos accesar
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php
+
+
+
+# Si la ruta no es un archivo existente, ni una carpeta
+# renvia  al index en el url
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+?)/?$ index.php?url=$1 [L,QSA]

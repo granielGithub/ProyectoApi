@@ -1,0 +1,97 @@
+-----------registrar Usuario (usuaio.php)
+METODO = POST
+   URL = http://localhost/ProyectoApi/usuario
+  BODY = {
+
+             "usuario": "",
+             "password": "",
+             "Estado": ""
+         }
+
+
+
+
+----------------autenticacion(auth.php)--------------------------------
+//auntenticasion para el usuario que ya esta registrado en la bd
+ METODO =  POST 
+    URL = http://localhost/ProyectoApi/auth
+
+ contraseña =
+EN BODY =
+          {
+		    "usuario" :"",
+		    "password": ""
+	      }
+
+
+
+
+-------------------------en pacientes.php ----------------------------
+saber los pacientes que hay en la base de datos por numero de pagina y por id de paciente
+
+METODOS = GET  URL=  http://localhost/ProyectoApi/pacientes?page=$numeroPagina
+          GET  URL = http://localhost/ProyectoApi/pacientes?id=$idPaciente
+
+EN BODY = VACIO para ambos.
+
+
+
+
+
+
+//para crear un paciente el token lo copio de  post-auth
+METODO = POST 
+  URL  = http://localhost/ProyectoApi/pacientes
+  BODY =
+   	{
+   	 "dni" : "",    primordial
+	 "nombre" : "", primordial
+	 "direccion": "",
+	 "codigoPostal" :"",
+	 "telefono" : "",
+	 "genero" : "",
+	 "fechaNacimiento" : "",
+	 "correo":"",   primordial
+	 "token" : ""   primordial        ---puede ir en el body o en el header y asi a los demas
+	}
+	-------------si el body esta mal manda un error_----------------------------------
+actualiza un paciente
+METODO = PUT http://localhost/ProyectoApi/pacientes
+  BODY = {
+	     "dni" : "",       primordial
+     	 "nombre" : "",    primordial
+     	 "direccion": "",
+     	 "codigoPostal" :"",
+     	 "telefono" : "",
+     	 "genero" : "",
+     	 "fechaNacimiento" : "",
+     	 "correo":"",      primordial
+     	 "token" : ""      primordial        ---puede ir en el body o en el header y asi a los demas
+	     "pacienteId" : "" primordial
+	 }
+
+elimina un paciente
+ METODO = DELETE}
+  URL   = http://localhost/ProyectoApi/pacientes
+BODY    = {
+	   "token" : "", 
+	   "pacienteId" : ""
+	  }
+
+
+----------------- insertar imagen en pacientes es lo mismo q insertar un paciente solo enfoco a imagen--------------------------------------------------------------
+	  METODO = POST  http://localhost/ProyectoApi/pacientes
+        BODY = {
+      	     "dni" : "",       primordial
+           	 "nombre" : "",    primordial
+           	 "correo":"",      primordial
+           	 "token" : "",      primordial        ---puede ir en el body o en el header y asi a los demas
+           	 "Imagen" : ""
+
+      	 }
+
+
+
+
+
+todsos los metodos se pueden usar si  ya ingreso el token

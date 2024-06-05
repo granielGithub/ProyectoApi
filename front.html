@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Formulario API</h1>
+    <div class="form-group">
+        <label for="idPaciente">ID Paciente (para GET, PUT, DELETE):</label>
+        <input type="text" id="idPaciente">
+    </div>
+    <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre">
+    </div>
+    <div class="form-group">
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni">
+    </div>
+    <div class="form-group">
+        <label for="genero">Genero:</label>
+        <input type="text" id="genero">
+    </div>
+    <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono">
+    </div>
+    <div class="form-group">
+        <label for="correo">Correo:</label>
+        <input type="text" id="correo">
+    </div>
+    <div class="form-group">
+        <label for="token">Token:</label>
+        <input type="text" id="token">
+    </div>
+    <div class="form-group">
+        <label for="page">Página (para GET):</label>
+        <input type="text" id="page">
+    </div>
+
+    <button onclick="sendRequest('GET')">GET</button>
+    <button onclick="sendRequest('POST')">POST</button>
+    <button onclick="sendRequest('PUT')">PUT</button>
+    <button onclick="sendRequest('DELETE')">DELETE</button>
+    <pre id="response"></pre>
+</div>
+
+<script>
+    async function sendRequest(method) {
+        const idPaciente = document.getElementById('idPaciente').value;
+        const nombre = document.getElementById('nombre').value;
+        const Genero = document.getElementById('genero').value;
+        const telefono = document.getElementById('telefono').value;
+        const correo = document.getElementById('correo').value;
+        const token = document.getElementById('token').value;
+        const page = document.getElementById('page').value;
+        const DNI = document.getElementById('dni').value;
+
+
+        let url = 'http://localhost/ProyectoApi/pacientes';
+        let options = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        if (method === 'GET') {
+            if (idPaciente) {
+                url += `?id=${idPaciente}`;
+            } else if (page) {
+                url +=  `?page=${page}`;
+            } else {
+                document.getElementById('response').textContent = 'Por favor, ingrese un ID o una página para la solicitud GET';
+                return;
+            }
+        } else {
+            let body = {
+                token: token
+            };
+
+
+            if (method === 'POST' || method === 'PUT') {
+                body.nombre = nombre;
+                body.genero = Genero;
+                body.telefono = telefono;
+                body.correo = correo;
+                body.dni = DNI;
+                body.token= token;
+                if (idPaciente) body.idPaciente = idPaciente;
+            } else if (method === 'DELETE') {
+                if (!idPaciente) {
+                    document.getElementById('response').textContent = 'Por favor, ingrese un ID para la solicitud DELETE';
+                    return;
+                }
+                body.idPaciente = idPaciente;
+                body.token = token;
+
+            }
+
+            options.body = JSON.stringify(body);
+        }
+
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+
+            document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+            document.getElementById('response').textContent = 'Error: ' + error;
+        }
+    }
+</script>
+</body>
+</html>
